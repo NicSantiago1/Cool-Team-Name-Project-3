@@ -1,5 +1,3 @@
-/* commented this out temporarily bc it's not compiling properly but i dont wanna screw w it - ja
-
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -49,13 +47,13 @@ void datasetMap::AddDatasetValues() {
 
 		TweetData tempTweet;
 
-		/*
-		Tweet ID, Date, and Content delete the quotation marks before and after each of the extracted string
-			Date is used as the key for the map
-
-		Tweet Hashtag List deletes the brackets before and after the extracted string of hashtags
-			The string formerly in the brackets can be separated using "," as a delimiter
-		*/
+		//
+		//Tweet ID, Date, and Content delete the quotation marks before and after each of the extracted string
+		//	Date is used as the key for the map
+		//
+		//Tweet Hashtag List deletes the brackets before and after the extracted string of hashtags
+		//	The string formerly in the brackets can be separated using "," as a delimiter
+		//
 
 		// Tweet ID
 		getline(s2, partOfRow, '\t');
