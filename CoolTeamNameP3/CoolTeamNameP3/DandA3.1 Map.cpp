@@ -17,60 +17,70 @@ public:
 	string ID;
 	string tweetContent;
 	string hashtags;
-private:
-
 };
 
 class datasetMap {
 public:
-	map<string, TweetData> datasetContents;
+	void AddDatasetValues();
 private:
-	// Some functions?
+	// A vector in case two tweets were published at the same time
+	map<string, vector<TweetData>> datasetContents;
 };
 
 int main() {
 	datasetMap dataset;
+	dataset.AddDatasetValues();
+}
+
+void datasetMap::AddDatasetValues() {
 	string tempDate;
 
 	fstream s;
 	s.open("full_dataset_reduced.csv", ios::in);
-	int position;
-	string line;
+
+	string datasetRow;
+	string partOfRow;
+
 	string ID, date, tweetContent, hashtags;
-	getline(s, line);
-	while (!line.empty) {
+
+	while (getline(s, datasetRow, '\n')) {
+		stringstream s2;
+		s2.str(datasetRow);
+
 		TweetData tempTweet;
-		// Deleting the first quotation mark
-		line.erase(line.begin());
+
+		/*
+		Tweet ID, Date, and Content delete the quotation marks before and after each of the extracted string
+			Date is used as the key for the map
+
+		Tweet Hashtag List deletes the brackets before and after the extracted string of hashtags
+			The string formerly in the brackets can be separated using "," as a delimiter
+		*/
 
 		// Tweet ID
-		position = line.find('","');
-		tempTweet.ID = line.substr(0, position - 1);
-		line.erase(0, position + 2);
+		getline(s2, partOfRow, '\t');
+		partOfRow.erase(partOfRow.end());
+		partOfRow.erase(partOfRow.begin());
+		tempTweet.ID = partOfRow;
 
 		// Tweet Date
-		position = line.find('","');
-		tempDate = line.substr(0, position - 1);
-		line.erase(0, position + 2);
+		getline(s2, partOfRow, '\t');
+		partOfRow.erase(partOfRow.end());
+		partOfRow.erase(partOfRow.begin());
+		tempDate = partOfRow;
 
 		// Tweet Content
-		position = line.find('",[');
-		tempTweet.tweetContent = line.substr(0, position - 1);
-		line.erase(0, position + 2);
+		getline(s2, partOfRow, '\t');
+		partOfRow.erase(partOfRow.end());
+		partOfRow.erase(partOfRow.begin());
+		tempTweet.tweetContent = partOfRow;
 
 		// Tweet Hashtag List
-		position = line.find('],');
-		tempTweet.hashtags = line.substr(0, position - 1);
-		line.erase(0, position + 1);
+		getline(s2, partOfRow, '\t');
+		partOfRow.erase(partOfRow.end());
+		partOfRow.erase(partOfRow.begin());
+		tempTweet.tweetContent = partOfRow;
 
-		dataset.datasetContents[tempDate] = tempTweet;
+		datasetContents[tempDate].push_back(tempTweet);
 	}
 }
-
-*/
-/*
-		stringstream currentLine(line);
-		while (getline(currentLine, temp, ',')) {
-
-		}
-		*/
