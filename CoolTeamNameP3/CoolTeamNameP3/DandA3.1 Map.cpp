@@ -1,3 +1,5 @@
+/* commented this out temporarily bc it's not compiling properly but i dont wanna screw w it - ja
+
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -65,6 +67,7 @@ int main() {
 	}
 }
 
+*/
 /*
 		stringstream currentLine(line);
 		while (getline(currentLine, temp, ',')) {
