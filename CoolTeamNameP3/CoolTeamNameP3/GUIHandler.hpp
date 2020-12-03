@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include "pieChart.hpp"
+#include "barChart.hpp"
 
 class GUIHandler {
 	sf::RenderWindow window;
@@ -60,7 +61,8 @@ public:
 
 
 		//bar chart things
-
+		barChart chart(140, 600, 1000, 500, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables);
+		
 	}
 
 	~GUIHandler() {
@@ -71,10 +73,19 @@ public:
 		//event handling
 		sf::Event event;
 		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
-				window.close();
-				//end loop in main
-				return false;
+			switch (event.type) {
+					
+				case sf::Event::Closed: //close window
+					window.close();
+					return false;
+					break;
+			
+				case sf::Event::KeyPressed: //buttons (temp)
+					if (event.key.code == sf::Keyboard::X)
+						state = 1;
+					if (event.key.code == sf::Keyboard::Z)
+						state = 0;
+					break;
 			}
 		}
 
@@ -85,13 +96,20 @@ public:
 		for (auto it : drawables)
 			window.draw(*it);
 
-		if (state == 0)
-			for (auto it : pieDrawables) 
+		if (state == 0) {
+			for (auto it : pieDrawables) {
 				window.draw(*it);
+			}
+		}
+		else {
+			for (auto it : barDrawables) {
+				window.draw(*it);
+			}
+		}
 		
 		window.display();
 
-		//return whether still running (ie yes)
+		//return whether still running (ie yes, the false return is earlier)
 		return true;
 	}
 };
