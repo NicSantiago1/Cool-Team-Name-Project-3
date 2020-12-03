@@ -17,3 +17,5 @@ CoolTeamNameP3/CoolTeamNameP3/CoolTeamNameP3.vcxproj
 *.sln
 *.idb
 *.exe
+CoolTeamNameP3/CoolTeamNameP3/full_dataset_reduced3.tsv
+*.opendb
