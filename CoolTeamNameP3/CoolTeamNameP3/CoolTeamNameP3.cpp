@@ -9,9 +9,7 @@ int main()
 {
 	GUIHandler GUI;
 
-	bool running = true;
-	while (running) {
-		running = GUI.update();
+	while (GUI.update()) {
 	}
 
 	return 0;
