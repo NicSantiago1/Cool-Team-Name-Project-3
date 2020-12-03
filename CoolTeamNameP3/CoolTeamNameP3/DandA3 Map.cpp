@@ -62,28 +62,20 @@ void datasetMap::AddDatasetValues() {
 
 		// Tweet ID
 		getline(s2, partOfRow, '\t');
-		partOfRow.erase(partOfRow.end());
-		partOfRow.erase(partOfRow.begin());
-		tempTweet.ID = partOfRow;
+		tempTweet.ID = partOfRow.substr(1, partOfRow.length() - 2);
 
 		// Tweet Date
 		getline(s2, partOfRow, '\t');
-		partOfRow.erase(partOfRow.end());
-		partOfRow.erase(partOfRow.begin());
-		tempDate = partOfRow;
+		tempDate = partOfRow.substr(1, partOfRow.length() - 2);
 
 		// Tweet Content
 		getline(s2, partOfRow, '\t');
-		partOfRow.erase(partOfRow.end());
-		partOfRow.erase(partOfRow.begin());
-		tempTweet.tweetContent = partOfRow;
+		tempTweet.tweetContent = partOfRow.substr(1, partOfRow.length() - 2);
 		tempTweet.FindKeywordFrequency();
 
 		// Tweet Hashtag List
 		getline(s2, partOfRow, '\t');
-		partOfRow.erase(partOfRow.end());
-		partOfRow.erase(partOfRow.begin());
-		tempTweet.tweetContent = partOfRow;
+		tempTweet.tweetContent = partOfRow.substr(1, partOfRow.length() - 2);
 
 		datasetContents[tempDate].push_back(tempTweet);
 	}
@@ -139,62 +131,62 @@ int main() {
 	datasetMap decDataset;
 	// Iterate through yearDataset and distribute values (I don't think this should be a dataset function unless you want the parameters to be 12 different maps passed by reference)
 	for (auto iter : yearDataset.returnContents()) {
-		if (iter.first.find("Jan") != string::npos) {
+		if (iter.first.compare(4, 3, "Jan")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				janDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Feb") != string::npos) {
+		else if (iter.first.compare(4, 3, "Feb")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				febDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Mar") != string::npos) {
+		else if (iter.first.compare(4, 3, "Mar")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				marDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Apr") != string::npos) {
+		else if (iter.first.compare(4, 3, "Apr")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				aprDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("May") != string::npos) {
+		else if (iter.first.compare(4, 3, "May")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				mayDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Jun") != string::npos) {
+		else if (iter.first.compare(4, 3, "Jun")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				junDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Jul") != string::npos) {
+		else if (iter.first.compare(4, 3, "Jul")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				julDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Aug") != string::npos) {
+		else if (iter.first.compare(4, 3, "Aug")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				augDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Sep") != string::npos) {
+		else if (iter.first.compare(4, 3, "Sep")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				sepDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Oct") != string::npos) {
+		else if (iter.first.compare(4, 3, "Oct")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				octDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Nov") != string::npos) {
+		else if (iter.first.compare(4, 3, "Nov")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				novDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
 		}
-		else if (iter.first.find("Dec") != string::npos) {
+		else if (iter.first.compare(4, 3, "Dec")) {
 			for (int i = 0; i < iter.second.size(); i++) {
 				decDataset.AddExistingValues(iter.first, iter.second[i]);
 			}
