@@ -9,3 +9,11 @@ CoolTeamNameP3/.vs/CoolTeamNameP3/v15/.suo
 *.pdb
 *.ipdb
 *.iobj
+CoolTeamNameP3/CoolTeamNameP3/CoolTeamNameP3.vcxproj
+*.user
+*.log
+*.filters
+*.obj
+*.sln
+*.idb
+*.exe
