@@ -6,6 +6,7 @@ class pieChart {
 	int MAX_COLS = 6;
 	std::vector<sf::Color> pieColors;
 	std::vector<sf::ConvexShape*> slices;
+	sf::Font* font;
 
 	//temp map (other part in const)
 	std::map<int, std::string, std::greater<int>> hashmap;
@@ -68,7 +69,7 @@ public:
 		to->insert(to->end(), slices.begin(), slices.end());
 	}
 
-	pieChart(float rad, float xpos, float ypos, int r, int g, int b, std::vector<sf::Drawable*>* to) {
+	pieChart(float rad, float xpos, float ypos, int r, int g, int b, std::vector<sf::Drawable*>* to, sf::Font* _font) {
 		//temp map too
 		hashmap.insert(std::pair<int, std::string>(10, "Trump"));
 		hashmap.insert(std::pair<int, std::string>(29, "Biden"));
@@ -82,6 +83,7 @@ public:
 		setColor(r, g, b);
 		initSlices();
 		sendDrawables(to);
+		font = _font;
 	}
 
 };
