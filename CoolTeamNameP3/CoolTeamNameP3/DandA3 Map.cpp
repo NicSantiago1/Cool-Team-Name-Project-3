@@ -39,46 +39,70 @@ void datasetMap::AddDatasetValues() {
 	string tempDate;
 
 	fstream s;
-	s.open("full_dataset_reduced.csv", ios::in);
+	s.open("full_dataset_reduced3.tsv", ios::in);
 
 	string datasetRow;
 	string partOfRow;
 
 	string ID, date, tweetContent, hashtags;
 
-	while (getline(s, datasetRow, '\n')) {
-		stringstream s2;
-		s2.str(datasetRow);
+	int i = 0;
+	//while (getline(s, datasetRow, '\n') && i < 10) {
+	//	i++;
+	//	stringstream s2;
+	//	s2.str(datasetRow);
+	//
+	//	TweetData tempTweet;
+	//
+	//	/*
+	//	Tweet ID, Date, and Content delete the quotation marks before and after each of the extracted string
+	//		Date is used as the key for the map
+	//
+	//	Tweet Hashtag List deletes the brackets before and after the extracted string of hashtags
+	//		The string formerly in the brackets can be separated using "," as a delimiter
+	//	*/
+	//
+	//	// Tweet ID
+	//	getline(s2, partOfRow, '\t');
+	//	tempTweet.ID = partOfRow.substr(1, partOfRow.length() - 2);
+	//
+	//	// Tweet Date
+	//	getline(s2, partOfRow, '\t');
+	//	tempDate = partOfRow.substr(1, partOfRow.length() - 2);
+	//
+	//	// Tweet Content
+	//	getline(s2, partOfRow, '\t');
+	//	tempTweet.tweetContent = partOfRow.substr(1, partOfRow.length() - 2);
+	//	tempTweet.FindKeywordFrequency();
+	//
+	//	// Tweet Hashtag List
+	//	getline(s2, partOfRow, '\t');
+	//	tempTweet.tweetContent = partOfRow.substr(1, partOfRow.length() - 2);
+	//
+	//	datasetContents[tempDate].push_back(tempTweet);
+	//}
+	while (getline(s, datasetRow, '\t') && i < 10) {
+		i++;
+		TweetData tempTw;
+		tempTw.ID = datasetRow.substr(1, datasetRow.length() - 2);
 
-		TweetData tempTweet;
+		getline(s, datasetRow, '\t');
+		tempDate = datasetRow.substr(1, datasetRow.length() - 2);
 
-		/*
-		Tweet ID, Date, and Content delete the quotation marks before and after each of the extracted string
-			Date is used as the key for the map
+		getline(s, datasetRow, '\t');
+		tempTw.tweetContent = datasetRow.substr(1, datasetRow.length() - 2);
+		tempTw.FindKeywordFrequency();
 
-		Tweet Hashtag List deletes the brackets before and after the extracted string of hashtags
-			The string formerly in the brackets can be separated using "," as a delimiter
-		*/
+		getline(s, datasetRow, '\n');
+		tempTw.hashtags = datasetRow.substr(1, datasetRow.length() - 2);
 
-		// Tweet ID
-		getline(s2, partOfRow, '\t');
-		tempTweet.ID = partOfRow.substr(1, partOfRow.length() - 2);
-
-		// Tweet Date
-		getline(s2, partOfRow, '\t');
-		tempDate = partOfRow.substr(1, partOfRow.length() - 2);
-
-		// Tweet Content
-		getline(s2, partOfRow, '\t');
-		tempTweet.tweetContent = partOfRow.substr(1, partOfRow.length() - 2);
-		tempTweet.FindKeywordFrequency();
-
-		// Tweet Hashtag List
-		getline(s2, partOfRow, '\t');
-		tempTweet.tweetContent = partOfRow.substr(1, partOfRow.length() - 2);
-
-		datasetContents[tempDate].push_back(tempTweet);
+		datasetContents[tempDate].push_back(tempTw);
 	}
+
+	//temp print func
+	//for (auto it : datasetContents) {
+	//	std::cout << it.first << " " << it.second.at(0).ID << " " << it.second.at(0).tweetContent << " " << it.second.at(0).hashtags << "\n";
+	//}
 }
 
 map<string, vector<TweetData>> datasetMap::returnContents() {
@@ -116,6 +140,7 @@ int main() {
 	datasetMap yearDataset;
 	yearDataset.AddDatasetValues();
 
+	/* for now
 	// Create maps for every month
 	datasetMap janDataset;
 	datasetMap febDataset;
@@ -192,6 +217,7 @@ int main() {
 			}
 		}
 	}
+	*/
 }
 
 
