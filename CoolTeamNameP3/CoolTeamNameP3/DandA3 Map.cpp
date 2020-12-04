@@ -1,38 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pulls
-Issues
-Marketplace
-Explore
-
-@InvalidReality
-Learn Git and GitHub without any code!
-Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
-
-
-NicSantiago1
-/
-Cool - Team - Name - Project - 3
-2
-00
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Cool - Team - Name - Project - 3 / CoolTeamNameP3 / CoolTeamNameP3 / DandA3 Map.cpp
-@jacksonavery
-jacksonavery taking input now works, month sets WIP
-Latest commit 6ef7fe8 2 hours ago
-History
-2 contributors
-@InvalidReality@jacksonavery
-224 lines(199 sloc)  6.32 KB
-
 #include <vector>
 #include <iostream>
 #include <fstream>
