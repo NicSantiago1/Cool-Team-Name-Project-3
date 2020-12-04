@@ -18,13 +18,19 @@ class GUIHandler {
 	//window size
 	const int WIDTH = 1280, HEIGHT = 720;
 	//side colors
-	int lr =  59, lg = 235, lb = 167;
+	int lr =  59, lg = 226, lb = 235;
 	int nr = 199, ng = 197, nb = 193;
 	int rr = 234, rg =  12, rb =  44;
 	//bg colors
 	sf::Color darkCol = sf::Color(57, 50, 50);
 	sf::Color lightCol = sf::Color(243, 239, 231);
 	sf::Color midCol = sf::Color(199, 196, 189);
+	
+	//charts
+	barChart* bChart;
+	//mouseover
+	sf::Text* mouseover;
+	sf::RectangleShape* mouseoverBox;
 
 public:
 	GUIHandler() {
@@ -44,7 +50,7 @@ public:
 		//title
 		sf::RectangleShape* titlBox = new sf::RectangleShape;
 		titlBox->setSize(sf::Vector2f(WIDTH, 90));
-		titlBox->setFillColor(darkCol);
+		titlBox->setFillColor(midCol);
 		titlBox->setPosition(0, 0);
 		drawables.push_back(titlBox);
 
@@ -52,7 +58,7 @@ public:
 		title->setFont(fontAHG);
 		title->setString("The Politicization of the Covid-19 Pandemic on Twitter");
 		title->setCharacterSize(40);
-		title->setFillColor(sf::Color(lightCol));
+		title->setFillColor(darkCol);
 		sf::FloatRect titleRect = title->getLocalBounds();
 		title->setOrigin(titleRect.width / 2.0f, titleRect.height / 2.0f);
 		title->setPosition(WIDTH / 2, 32);
@@ -66,12 +72,26 @@ public:
 
 
 		//bar chart things
-		barChart chart(140, 600, 1000, 400, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables, darkCol, midCol, &fontAHGl, &fontAHG);
+		bChart = new barChart(140, 580, 1000, 400, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables, darkCol, midCol, &fontAHGl, &fontAHG);
 		
+
+		//mouseover
+		mouseover = new sf::Text();
+		mouseover->setString("");
+		mouseover->setFont(fontAHGl);
+		mouseover->setFillColor(darkCol);
+		mouseover->setCharacterSize(20);
+		mouseoverBox = new sf::RectangleShape();
+		mouseoverBox->setFillColor(lightCol);
+		mouseoverBox->setSize(sf::Vector2f(0, 0));
 	}
 
 	~GUIHandler() {
 		drawables.clear();
+		pieDrawables.clear();
+		barDrawables.clear();
+		delete bChart;
+		delete mouseover, mouseoverBox;
 	}
 
 	bool update() {
@@ -94,6 +114,12 @@ public:
 			}
 		}
 
+		if (state == 0) {
+			//pieChart.checkMouseOvers();
+		}
+		else
+			bChart->checkMouseOvers(&window, mouseover, mouseoverBox);
+
 
 		//drawing
 		window.clear(lightCol);
@@ -111,6 +137,8 @@ public:
 				window.draw(*it);
 			}
 		}
+		window.draw(*mouseoverBox);
+		window.draw(*mouseover);
 		
 		window.display();
 
