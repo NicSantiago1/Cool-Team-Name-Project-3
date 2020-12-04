@@ -1,3 +1,38 @@
+Skip to content
+Search or jump to…
+
+Pulls
+Issues
+Marketplace
+Explore
+
+@InvalidReality
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+
+NicSantiago1
+/
+Cool - Team - Name - Project - 3
+2
+00
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Cool - Team - Name - Project - 3 / CoolTeamNameP3 / CoolTeamNameP3 / DandA3 Map.cpp
+@jacksonavery
+jacksonavery taking input now works, month sets WIP
+Latest commit 6ef7fe8 2 hours ago
+History
+2 contributors
+@InvalidReality@jacksonavery
+224 lines(199 sloc)  6.32 KB
+
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -28,15 +63,15 @@ class datasetMap {
 public:
 	void AddDatasetValues();
 	void AddExistingValues(string date, TweetData temp);
-	map<string, vector<TweetData>> returnContents();
+	map<pair<string, string>, vector<TweetData>> returnContents();
 private:
 	// A vector in case two tweets were published at the same time
-	map<string, vector<TweetData>> datasetContents;
+	map<pair<string, string>, vector<TweetData>> datasetContents;
 };
 
 // Dataset function(s)
 void datasetMap::AddDatasetValues() {
-	string tempDate;
+	string tempDate, tempMonth;
 
 	fstream s;
 	s.open("full_dataset_reduced3.tsv", ios::in);
@@ -88,6 +123,8 @@ void datasetMap::AddDatasetValues() {
 
 		getline(s, datasetRow, '\t');
 		tempDate = datasetRow.substr(1, datasetRow.length() - 2);
+		// CHECK - from indexes 5 to 7?
+		tempMonth = datasetRow.substr(5, 7);
 
 		getline(s, datasetRow, '\t');
 		tempTw.tweetContent = datasetRow.substr(1, datasetRow.length() - 2);
@@ -96,7 +133,7 @@ void datasetMap::AddDatasetValues() {
 		getline(s, datasetRow, '\n');
 		tempTw.hashtags = datasetRow.substr(1, datasetRow.length() - 2);
 
-		datasetContents[tempDate].push_back(tempTw);
+		datasetContents[make_pair(tempDate, tempMonth)].push_back(tempTw);
 	}
 
 	//temp print func
@@ -105,7 +142,7 @@ void datasetMap::AddDatasetValues() {
 	//}
 }
 
-map<string, vector<TweetData>> datasetMap::returnContents() {
+map<pair<string, string>, vector<TweetData>> datasetMap::returnContents() {
 	return datasetContents;
 }
 
@@ -117,9 +154,9 @@ void datasetMap::AddExistingValues(string date, TweetData temp) {
 void TweetData::FindKeywordFrequency() {
 	/*
 	Two vectors, one containing left keywords and one containing right keywords stored in the TweetData object
-	Search the "tweetContent" string and add 1 
+	Search the "tweetContent" string and add 1
 	*/
-	
+
 	for (int i = 0; i < rightKeywords.size(); i++) {
 		if (tweetContent.find(rightKeywords[i]) != string::npos) {
 			rightKeywordFrequency++;
@@ -139,6 +176,8 @@ int main() {
 	// Create a map for the entire year/dataset
 	datasetMap yearDataset;
 	yearDataset.AddDatasetValues();
+
+
 
 	/* for now
 	// Create maps for every month
