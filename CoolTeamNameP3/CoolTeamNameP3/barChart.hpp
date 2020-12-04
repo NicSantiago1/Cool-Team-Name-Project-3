@@ -3,7 +3,7 @@
 class barChart{
 	float xpos, ypos, width, height;
 	std::vector<sf::RectangleShape*> bars;
-	sf::Color colors[3];
+	sf::Color colors[2];
 
 public:
 	void setSize(float _x, float _y, float _w, float _h) {
@@ -15,24 +15,24 @@ public:
 
 	void setColors(sf::Color leftC, sf::Color neutC, sf::Color rightC) {
 		colors[0] = leftC;
-		colors[1] = neutC;
-		colors[2] = rightC;
+		//colors[1] = neutC;
+		colors[1] = rightC;
 	}
 
 	void initBars() {
 		//this will have to be changed around later
-		int size = 60;
-		int vals[60];
-		for (int i = 0; i < 60; i++) {
-			vals[i] = ((i + 56)*(1 + 173) % 400);
+		int size = 24;
+		int vals[24];
+		for (int i = 0; i < 24; i++) {
+			vals[i] = ((i + 56)*(i + 173) % 400);
 		}
 
-		float adjwidth = width * 3.0f / 4.0f;
+		float adjwidth = width * 2.0f / 3.0f;
 
 		for (int i = 0; i < size; i++) {
 			auto a = new sf::RectangleShape(sf::Vector2f(adjwidth / size, 0 - vals[i]));
-			a->setFillColor(colors[(i-1) % 3]);
-			a->setPosition(xpos+(adjwidth / size)*(i + (i-1)/3), ypos);
+			a->setFillColor(colors[(i-1) % 2]);
+			a->setPosition(xpos+(adjwidth / size)*(i + (i-1)/2), ypos);
 			bars.push_back(a);
 		}
 	}
