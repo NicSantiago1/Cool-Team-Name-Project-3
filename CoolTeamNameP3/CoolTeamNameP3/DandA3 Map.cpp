@@ -28,15 +28,15 @@ class datasetMap {
 public:
 	void AddDatasetValues();
 	void AddExistingValues(string date, TweetData temp);
-	map<string, vector<TweetData>> returnContents();
+	map<pair<string, string>, vector<TweetData>> returnContents();
 private:
 	// A vector in case two tweets were published at the same time
-	map<string, vector<TweetData>> datasetContents;
+	map<pair<string, string>, vector<TweetData>> datasetContents;
 };
 
 // Dataset function(s)
 void datasetMap::AddDatasetValues() {
-	string tempDate;
+	string tempDate, tempMonth;
 
 	fstream s;
 	s.open("full_dataset_reduced3.tsv", ios::in);
@@ -46,7 +46,7 @@ void datasetMap::AddDatasetValues() {
 
 	string ID, date, tweetContent, hashtags;
 
-
+	int i = 0;
 	//while (getline(s, datasetRow, '\n') && i < 10) {
 	//	i++;
 	//	stringstream s2;
@@ -81,12 +81,15 @@ void datasetMap::AddDatasetValues() {
 	//
 	//	datasetContents[tempDate].push_back(tempTweet);
 	//}
-	while (getline(s, datasetRow, '\t')) {
+	while (getline(s, datasetRow, '\t') && i < 10) {
+		i++;
 		TweetData tempTw;
 		tempTw.ID = datasetRow.substr(1, datasetRow.length() - 2);
 
 		getline(s, datasetRow, '\t');
 		tempDate = datasetRow.substr(1, datasetRow.length() - 2);
+		// CHECK - from indexes 5 to 7?
+		tempMonth = datasetRow.substr(5, 7);
 
 		getline(s, datasetRow, '\t');
 		tempTw.tweetContent = datasetRow.substr(1, datasetRow.length() - 2);
@@ -95,7 +98,7 @@ void datasetMap::AddDatasetValues() {
 		getline(s, datasetRow, '\n');
 		tempTw.hashtags = datasetRow.substr(1, datasetRow.length() - 2);
 
-		datasetContents[tempDate].push_back(tempTw);
+		datasetContents[make_pair(tempDate, tempMonth)].push_back(tempTw);
 	}
 
 	//temp print func
@@ -104,7 +107,7 @@ void datasetMap::AddDatasetValues() {
 	//}
 }
 
-map<string, vector<TweetData>> datasetMap::returnContents() {
+map<pair<string, string>, vector<TweetData>> datasetMap::returnContents() {
 	return datasetContents;
 }
 
@@ -116,9 +119,9 @@ void datasetMap::AddExistingValues(string date, TweetData temp) {
 void TweetData::FindKeywordFrequency() {
 	/*
 	Two vectors, one containing left keywords and one containing right keywords stored in the TweetData object
-	Search the "tweetContent" string and add 1 
+	Search the "tweetContent" string and add 1
 	*/
-	
+
 	for (int i = 0; i < rightKeywords.size(); i++) {
 		if (tweetContent.find(rightKeywords[i]) != string::npos) {
 			rightKeywordFrequency++;
@@ -139,6 +142,9 @@ int main() {
 	datasetMap yearDataset;
 	yearDataset.AddDatasetValues();
 
+
+
+	/* for now
 	// Create maps for every month
 	datasetMap janDataset;
 	datasetMap febDataset;
@@ -215,7 +221,6 @@ int main() {
 			}
 		}
 	}
+	*/
 }
-
-
 
