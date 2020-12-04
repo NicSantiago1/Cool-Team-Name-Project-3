@@ -46,7 +46,7 @@ void datasetMap::AddDatasetValues() {
 
 	string ID, date, tweetContent, hashtags;
 
-	int i = 0;
+
 	//while (getline(s, datasetRow, '\n') && i < 10) {
 	//	i++;
 	//	stringstream s2;
@@ -81,8 +81,7 @@ void datasetMap::AddDatasetValues() {
 	//
 	//	datasetContents[tempDate].push_back(tempTweet);
 	//}
-	while (getline(s, datasetRow, '\t') && i < 10) {
-		i++;
+	while (getline(s, datasetRow, '\t')) {
 		TweetData tempTw;
 		tempTw.ID = datasetRow.substr(1, datasetRow.length() - 2);
 
@@ -140,7 +139,6 @@ int main() {
 	datasetMap yearDataset;
 	yearDataset.AddDatasetValues();
 
-	/* for now
 	// Create maps for every month
 	datasetMap janDataset;
 	datasetMap febDataset;
@@ -217,7 +215,6 @@ int main() {
 			}
 		}
 	}
-	*/
 }
 
 
