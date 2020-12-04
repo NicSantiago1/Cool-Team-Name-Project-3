@@ -8,6 +8,7 @@
 class GUIHandler {
 	sf::RenderWindow window;
 	sf::Font fontAHG;
+	sf::Font fontAHGl;
 	
 	int state = 0; //0 for pie, 1 for bar
 	std::vector<sf::Drawable*> drawables;
@@ -23,6 +24,7 @@ class GUIHandler {
 	//bg colors
 	sf::Color darkCol = sf::Color(57, 50, 50);
 	sf::Color lightCol = sf::Color(243, 239, 231);
+	sf::Color midCol = sf::Color(199, 196, 189);
 
 public:
 	GUIHandler() {
@@ -33,6 +35,9 @@ public:
 
 		//font
 		if (!fontAHG.loadFromFile("AlteHaasGroteskBold.ttf")) {
+			std::cout << "font not loaded\n";
+		}
+		if (!fontAHGl.loadFromFile("AlteHaasGroteskRegular.ttf")) {
 			std::cout << "font not loaded\n";
 		}
 
@@ -55,13 +60,13 @@ public:
 
 
 		//pie chart things (size, xypos, rgb, draw group
-		pieChart leftChart (160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, &pieDrawables);
-		pieChart midChart  (160.0f, WIDTH / 2.0f         , HEIGHT / 2.0f - 50.0f, nr, ng, nb, &pieDrawables);
-		pieChart rightChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, &pieDrawables);
+		pieChart leftChart (160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, &pieDrawables, &fontAHG);
+		pieChart midChart  (160.0f, WIDTH / 2.0f         , HEIGHT / 2.0f - 50.0f, nr, ng, nb, &pieDrawables, &fontAHG);
+		pieChart rightChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, &pieDrawables, &fontAHG);
 
 
 		//bar chart things
-		barChart chart(140, 600, 1000, 500, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables);
+		barChart chart(140, 600, 1000, 400, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables, darkCol, midCol, &fontAHGl, &fontAHG);
 		
 	}
 
