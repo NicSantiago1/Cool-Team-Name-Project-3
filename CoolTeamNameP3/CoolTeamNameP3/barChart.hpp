@@ -37,9 +37,9 @@ public:
 		float maxVal = 0;
 		float adjwidth = width * 2.0f / 3.0f;
 
-		vals[0] = 1000000/2;
+		vals[0] = 156930/2;
 		for (int i = 1; i < 24; i++) {
-			vals[i] = (((vals[i-1] + 56)*(vals[i - 1] + 173) % 800000) + 100);
+			vals[i] = (((vals[i-1] + 56)*(vals[i - 1] + 173) % 500000) + 100);
 			if (vals[i] > maxVal)
 				maxVal = vals[i];
 		}
@@ -66,7 +66,7 @@ public:
 			scaleSize /= 10;
 
 		int i = 0;
-		while (scaleSize * i < maxVal * 5) {
+		do {
 
 			if (i % 5 == 0) {
 				//text
@@ -91,7 +91,7 @@ public:
 			}
 			
 			i++;
-		}
+		} while (scaleSize * i <= maxVal * 5);
 	}
 
 	void initText() {
