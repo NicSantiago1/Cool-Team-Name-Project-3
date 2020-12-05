@@ -5,6 +5,7 @@
 #include "pieChart.hpp"
 #include "barChart.hpp"
 
+
 class GUIHandler {
 	sf::RenderWindow window;
 	sf::Font fontAHG;
@@ -18,7 +19,7 @@ class GUIHandler {
 	//window size
 	const int WIDTH = 1280, HEIGHT = 720;
 	//side colors
-	int lr =  59, lg = 226, lb = 235;
+	int lr =  19, lg = 165, lb = 214;
 	int nr = 199, ng = 197, nb = 193;
 	int rr = 234, rg =  12, rb =  44;
 	//bg colors
@@ -27,6 +28,7 @@ class GUIHandler {
 	sf::Color midCol = sf::Color(199, 196, 189);
 	
 	//charts
+	pieChart* leftChart,* rightChart;
 	barChart* bChart;
 	//mouseover
 	sf::Text* mouseover;
@@ -66,13 +68,13 @@ public:
 
 
 		//pie chart things (size, xypos, rgb, draw group
-		pieChart leftChart (160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, &pieDrawables, &fontAHG);
-		pieChart midChart  (160.0f, WIDTH / 2.0f         , HEIGHT / 2.0f - 50.0f, nr, ng, nb, &pieDrawables, &fontAHG);
-		pieChart rightChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, &pieDrawables, &fontAHG);
+		leftChart =  new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, &pieDrawables, darkCol, midCol, &fontAHG);
+		//midChart =   new pieChart(160.0f, WIDTH / 2.0f, HEIGHT / 2.0f - 50.0f,          nr, ng, nb, &pieDrawables, darkCol, midCol, &fontAHG);
+		rightChart = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, &pieDrawables, darkCol, midCol, &fontAHG);
 
 
 		//bar chart things
-		bChart = new barChart(140, 580, 1000, 400, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables, darkCol, midCol, &fontAHGl, &fontAHG);
+		bChart = new barChart(140, 580, 900, 400, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables, darkCol, midCol, &fontAHGl, &fontAHG);
 		
 
 		//mouseover
@@ -90,7 +92,7 @@ public:
 		drawables.clear();
 		pieDrawables.clear();
 		barDrawables.clear();
-		delete bChart;
+		delete bChart, leftChart, rightChart;
 		delete mouseover, mouseoverBox;
 	}
 
@@ -114,8 +116,11 @@ public:
 			}
 		}
 
+		//mouseover
+		mouseover->setString("");
+		mouseoverBox->setSize(sf::Vector2f(0, 0));
 		if (state == 0) {
-			//pieChart.checkMouseOvers();
+			//no
 		}
 		else
 			bChart->checkMouseOvers(&window, mouseover, mouseoverBox);
