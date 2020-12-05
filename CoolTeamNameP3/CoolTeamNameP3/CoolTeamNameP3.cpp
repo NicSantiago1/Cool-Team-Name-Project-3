@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+
+//maps
 #include "DandA3 Map.hpp"
 
 //graphics
@@ -8,13 +10,15 @@
 
 int main()
 {
-	GUIHandler GUI;
-
 	datasetMap yearDataset;
 	yearDataset.AddDatasetValues();
+	map<pair<string, string>, vector<TweetData>>* mapDS = yearDataset.returnContents();
 
-	while (GUI.update()) {
-	}
+	vector<int> kwf = yearDataset.returnKeywordFreq();
+	GUIHandler GUI(&kwf);
+
+	
+	while (GUI.update()) {}
 
 	return 0;
 }

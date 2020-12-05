@@ -15,6 +15,7 @@ class barChart{
 	sf::Color midCol;
 	sf::Font* font, * bFont;
 	std::string monthStrs[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+	vector<int>* keywordFreq;
 
 	std::string intStr(int in) {
 		std::string out = std::to_string(in);
@@ -41,30 +42,29 @@ public:
 	}
 
 	void initBars() {
-		//this will have to be changed around later
 		int size = 24;
-		unsigned int vals[24];
-		float maxVal = 0;
 		float adjwidth = width * 2.0f / 3.0f;
+		float maxVal = 1;
 
-		vals[0] = 186937/2;
-		for (int i = 1; i < 24; i++) {
-			vals[i] = (((vals[i-1] + 56)*(vals[i - 1] + 173) % 100000) + 100);
-			if (vals[i] > maxVal)
-				maxVal = vals[i];
-		}
+		for (int i = 0; i < size; i++)
+			if (keywordFreq->at(i) == 0)
+				throw std::runtime_error("dont put 0 in the graph");
+
+		for (int i = 0; i < size; i++)
+			if (keywordFreq->at(i) > maxVal)
+				maxVal = keywordFreq->at(i);
 
 		//create vert bars
 		for (int i = 0; i < size; i++) {
 			auto a = new mouseOverBar();
-			a->setSize(sf::Vector2f(adjwidth / size, 0.0f - (float)vals[i] / maxVal * height));
+			a->setSize(sf::Vector2f(adjwidth / size, 0.0f - keywordFreq->at(i) / maxVal * height));
 			a->setFillColor(colors[(i) % 2]);
 			a->setPosition(xpos+(adjwidth / size)*(i + (i)/2), ypos);
-			a->value = vals[i];
+			a->value = keywordFreq->at(i);
 			bars.push_back(a);
 
 			//bottom text
-			auto b = new sf::Text(intStr(vals[i]), *font, 16);
+			auto b = new sf::Text(intStr(keywordFreq->at(i)), *font, 16);
 			b->setFillColor(colors[i%2]);
 			b->setPosition(xpos + (width / size)*(i/2*2), ypos + 35 + 20*(i%2));
 			extras.push_back(b);
@@ -146,13 +146,14 @@ public:
 		}
 	}
 
-	barChart(float _x, float _y, float _w, float _h, sf::Color l, sf::Color n, sf::Color r, std::vector<sf::Drawable*>* to, sf::Color dark, sf::Color mid, sf::Font* _font, sf::Font* _bFont) {
+	barChart(float _x, float _y, float _w, float _h, sf::Color l, sf::Color n, sf::Color r, std::vector<sf::Drawable*>* to, sf::Color dark, sf::Color mid, sf::Font* _font, sf::Font* _bFont, vector<int>* kfreq) {
 		setSize(_x,_y,_w,_h);
 		setColors(l,n,r);
 		darkCol = dark;
 		midCol = mid;
 		font = _font;
 		bFont = _bFont;
+		keywordFreq = kfreq;
 
 		init();
 		sendDrawables(to);

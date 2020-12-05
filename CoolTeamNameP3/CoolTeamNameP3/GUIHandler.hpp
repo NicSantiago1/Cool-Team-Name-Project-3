@@ -35,7 +35,7 @@ class GUIHandler {
 	sf::RectangleShape* mouseoverBox;
 
 public:
-	GUIHandler() {
+	GUIHandler(vector<int>* kfreq) {
 		//initialize window
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
@@ -74,7 +74,7 @@ public:
 
 
 		//bar chart things
-		bChart = new barChart(140, 580, 900, 400, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables, darkCol, midCol, &fontAHGl, &fontAHG);
+		bChart = new barChart(140, 580, 900, 400, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables, darkCol, midCol, &fontAHGl, &fontAHG, kfreq);
 		
 
 		//mouseover
