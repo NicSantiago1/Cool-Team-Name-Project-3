@@ -1,15 +1,33 @@
 #pragma once
 #define PI 3.14159265f
 
+class mouseOverSlice : public sf::ConvexShape {
+public:
+	int value;
+	std::string string;
+};
+
 class pieChart {
 	float PIE_R, PIE_X, PIE_Y;
 	int MAX_COLS = 6;
 	std::vector<sf::Color> pieColors;
-	std::vector<sf::ConvexShape*> slices;
+	std::vector<mouseOverSlice*> slices;
 	sf::Font* font;
+	sf::Color darkCol;
+	sf::Color midCol;
 
 	//temp map (other part in const)
 	std::map<int, std::string, std::greater<int>> hashmap;
+
+	std::string intStr(int in) {
+		std::string out = std::to_string(in);
+		int i = out.length() - 3;
+		while (i > 0) {
+			out.insert(i, ",");
+			i -= 3;
+		}
+		return out;
+	}
 
 
 public:
@@ -34,7 +52,7 @@ public:
 		int k = j->first;
 		int m = 0;
 		for (int i = 0; i < 100; i++) {
-			auto a = new sf::ConvexShape;
+			auto a = new mouseOverSlice;
 			a->setPointCount(3);
 			a->setPoint(0, sf::Vector2f(0, 0));
 			a->setPosition(PIE_X, PIE_Y);
@@ -43,7 +61,10 @@ public:
 				(float)(-PIE_R * std::cos((2.0f * PI / 100.0f)*i))));
 			a->setPoint(2, sf::Vector2f((float)(PIE_R*std::sin((2.0f * PI / 100.0f)*(i + 1))),
 				(float)(-PIE_R * std::cos((2.0f * PI / 100.0f)*(i + 1)))));
-			//this bit uggo but it assigns colors
+			//value
+			a->value = j->first;
+			a->string = j->second;
+			//this bit uggo but it assigns colors/text
 			a->setFillColor(pieColors[m]);
 			slices.push_back(a);
 			k--;
@@ -58,10 +79,6 @@ public:
 					m += 1;
 				}
 			}
-			//if (k == j->first / 2) { //align onpie text
-			//	onPieTexts[m].setPosition(sf::Vector2f((float)(PIE_X + PIE_R * .7 * std::sin((2.0f * PI / 100.0f)*i)),
-			//		(float)(PIE_Y - PIE_R * .7 * std::cos((2.0f * PI / 100.0f)*i))));
-			//}
 		}
 	}
 
@@ -69,7 +86,7 @@ public:
 		to->insert(to->end(), slices.begin(), slices.end());
 	}
 
-	pieChart(float rad, float xpos, float ypos, int r, int g, int b, std::vector<sf::Drawable*>* to, sf::Font* _font) {
+	pieChart(float rad, float xpos, float ypos, int r, int g, int b, std::vector<sf::Drawable*>* to, sf::Color dark, sf::Color mid, sf::Font* _font) {
 		//temp map too
 		hashmap.insert(std::pair<int, std::string>(10, "Trump"));
 		hashmap.insert(std::pair<int, std::string>(29, "Biden"));
@@ -81,9 +98,11 @@ public:
 
 		setSize(rad, xpos, ypos);
 		setColor(r, g, b);
+		font = _font;
+		darkCol = dark;
+		midCol = mid;
 		initSlices();
 		sendDrawables(to);
-		font = _font;
 	}
 
 };
