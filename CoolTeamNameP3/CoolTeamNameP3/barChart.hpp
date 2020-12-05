@@ -16,6 +16,16 @@ class barChart{
 	sf::Font* font, * bFont;
 	std::string monthStrs[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
+	std::string intStr(int in) {
+		std::string out = std::to_string(in);
+		int i = out.length() - 3;
+		while (i > 0) {
+			out.insert(i, ",");
+			i -= 3;
+		}
+		return out;
+	}
+
 public:
 	void setSize(float _x, float _y, float _w, float _h) {
 		xpos = _x;
@@ -37,9 +47,9 @@ public:
 		float maxVal = 0;
 		float adjwidth = width * 2.0f / 3.0f;
 
-		vals[0] = 156930/2;
+		vals[0] = 186937/2;
 		for (int i = 1; i < 24; i++) {
-			vals[i] = (((vals[i-1] + 56)*(vals[i - 1] + 173) % 500000) + 100);
+			vals[i] = (((vals[i-1] + 56)*(vals[i - 1] + 173) % 100000) + 100);
 			if (vals[i] > maxVal)
 				maxVal = vals[i];
 		}
@@ -52,7 +62,14 @@ public:
 			a->setPosition(xpos+(adjwidth / size)*(i + (i)/2), ypos);
 			a->value = vals[i];
 			bars.push_back(a);
+
+			//bottom text
+			auto b = new sf::Text(intStr(vals[i]), *font, 16);
+			b->setFillColor(colors[i%2]);
+			b->setPosition(xpos + (width / size)*(i/2*2), ypos + 35 + 20*(i%2));
+			extras.push_back(b);
 		}
+
 
 		//create horz bars (5-9 in increments of 2*10^n-1 where n is the max vals length
 		int scaleSize = maxVal;
@@ -70,7 +87,7 @@ public:
 
 			if (i % 5 == 0) {
 				//text
-				std::string tmp = std::to_string(scaleSize*i);
+				std::string tmp = intStr(scaleSize*i);
 				auto text = new sf::Text(tmp, *font, 20);
 				text->setFillColor(darkCol);
 				text->setPosition(xpos - 20 - text->getLocalBounds().width, ypos - scaleSize * i / 5 / maxVal * height - 24);
@@ -92,6 +109,9 @@ public:
 			
 			i++;
 		} while (scaleSize * i <= maxVal * 5);
+
+		//sidebar
+
 	}
 
 	void initText() {
@@ -114,11 +134,9 @@ public:
 	}
 
 	void checkMouseOvers(sf::RenderWindow* window, sf::Text* mouseover, sf::RectangleShape* rect) {
-		mouseover->setString("");
-		rect->setSize(sf::Vector2f(0,0));
 		for (auto it : bars) {
 			if (it->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(*window)))) {
-				mouseover->setString(std::to_string(it->value));
+				mouseover->setString(intStr(it->value));
 				sf::Vector2f mousepos = sf::Vector2f(sf::Mouse::getPosition(*window));
 				mouseover->setPosition(mousepos.x, mousepos.y - mouseover->getGlobalBounds().height - 10);
 				rect->setPosition(sf::Vector2f(mouseover->getGlobalBounds().left-5, mouseover->getGlobalBounds().top - 5));
