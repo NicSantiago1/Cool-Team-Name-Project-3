@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "DandA3 Map.cpp"
+#include "DandA3 Map.hpp"
 
 //graphics
 #include <SFML/Graphics.hpp>
