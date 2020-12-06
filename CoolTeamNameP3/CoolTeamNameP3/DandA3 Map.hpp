@@ -75,7 +75,7 @@ public:
 		string tempDate, tempMonth;
 
 		fstream s;
-		s.open("full_dataset_reduced3.tsv", ios::in);
+		s.open("full_dataset_reduced3_div100.tsv", ios::in);
 
 		string datasetRow;
 
@@ -85,12 +85,10 @@ public:
 		int i = 0;
 		while (getline(s, datasetRow, '\t')) {
 			i++;
-			if (i % 10 != 0) {
-				getline(s, datasetRow, '\n');
-				continue;
-			}
-			//cout << "\t" << i << ": ";
-			//cout << datasetRow << " ";
+			//if (i % 100 != 0) {
+			//	getline(s, datasetRow, '\n');
+			//	continue;
+			//}
 			TweetData tempTw;
 			tempTw.ID = datasetRow.substr(1, datasetRow.length() - 2);
 
