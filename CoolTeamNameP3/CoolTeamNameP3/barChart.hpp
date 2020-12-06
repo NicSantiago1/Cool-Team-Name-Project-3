@@ -64,7 +64,7 @@ public:
 			bars.push_back(a);
 
 			//bottom text
-			auto b = new sf::Text(intStr(keywordFreq->at(i)), *font, 16);
+			auto b = new sf::Text(intStr(keywordFreq->at(i)-1), *font, 16);
 			b->setFillColor(colors[i%2]);
 			b->setPosition(xpos + (width / size)*(i/2*2), ypos + 35 + 20*(i%2));
 			extras.push_back(b);
