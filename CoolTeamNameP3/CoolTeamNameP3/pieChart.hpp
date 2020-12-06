@@ -10,11 +10,14 @@ public:
 class pieChart {
 	float PIE_R, PIE_X, PIE_Y;
 	int MAX_COLS = 6;
+	vector<string> pieKeys;
 	std::vector<sf::Color> pieColors;
 	std::vector<mouseOverSlice*> slices;
+	std::vector<sf::Drawable*> extras;
 	sf::Font* font;
 	sf::Color darkCol;
-	sf::Color midCol;
+	sf::Color lightCol;
+	int reversed = 1;
 
 	//temp map (other part in const)
 	std::map<int, std::string, std::greater<int>> hashmap;
@@ -48,7 +51,53 @@ public:
 	}
 
 	void initSlices() {
+		//text
 		auto j = hashmap.begin();
+		for (int i = 0; i < MAX_COLS; i++) { //can break if array very small but shouldnt
+			pieKeys.push_back(j->second);
+			j++;
+		}
+		//side  and onPie text
+		vector<sf::Text*> onPieTexts;
+		
+		int percOther = 100;
+		j = hashmap.begin();
+		for (int i = 0; i < MAX_COLS - 1; i++) {
+			//side
+			auto b = new sf::Text;
+			b->setFont(*font);
+			b->setCharacterSize(20);
+			(reversed > 0) ? b->setString(intStr(j->first) + "% " + j->second) : b->setString(j->second + " " + intStr(j->first) + "%");
+			percOther -= j->first;
+			b->setFillColor(pieColors[i]);
+			b->setPosition(PIE_X + (PIE_R + 20) * reversed, PIE_Y - PIE_R + i * 20);
+			(reversed > 0) ? b->setOrigin(0, 0) : b->setOrigin(b->getGlobalBounds().width, 0);
+			extras.push_back(b);
+
+			//onpie
+			b = new sf::Text;
+			b->setFont(*font);
+			b->setCharacterSize(20);
+			b->setString((j->second.size() > 5) ? j->second.substr(0,4) + "." : j->second);
+			b->setFillColor(lightCol);
+			sf::FloatRect bRect = b->getLocalBounds();
+			b->setOrigin(bRect.width / 2.0f, bRect.height / 2.0f);
+			onPieTexts.push_back(b);
+			j++;
+		}
+		//"other"
+		auto b = new sf::Text;
+		b->setFont(*font);
+		b->setCharacterSize(20);
+		(reversed > 0) ? b->setString(intStr(percOther) + "% " + "Other/None") : b->setString("Other/None " + intStr(percOther) + "%");
+		b->setFillColor(pieColors[MAX_COLS - 1]);
+		(reversed > 0) ? b->setOrigin(0, 0) : b->setOrigin(b->getGlobalBounds().width, 0);
+		b->setPosition(PIE_X + (PIE_R + 20) * reversed, PIE_Y - PIE_R + (MAX_COLS - 1) * 20);
+		extras.push_back(b);
+
+
+		//pie
+		j = hashmap.begin();
 		int k = j->first;
 		int m = 0;
 		for (int i = 0; i < 100; i++) {
@@ -79,14 +128,20 @@ public:
 					m += 1;
 				}
 			}
+			if (k == j->first / 2) { //align onpie text
+				onPieTexts[m]->setPosition(sf::Vector2f((float)(PIE_X + PIE_R * .7 * std::sin((2.0f * PI / 100.0f)*i)),
+					(float)(PIE_Y - PIE_R * .7 * std::cos((2.0f * PI / 100.0f)*i))));
+			}
 		}
+		extras.insert(extras.end(), onPieTexts.begin(), onPieTexts.end());
 	}
 
 	void sendDrawables(std::vector<sf::Drawable*>* to) {
 		to->insert(to->end(), slices.begin(), slices.end());
+		to->insert(to->end(), extras.begin(), extras.end());
 	}
 
-	pieChart(float rad, float xpos, float ypos, int r, int g, int b, std::vector<sf::Drawable*>* to, sf::Color dark, sf::Color mid, sf::Font* _font) {
+	pieChart(float rad, float xpos, float ypos, int r, int g, int b, std::vector<sf::Drawable*>* to, sf::Color dark, sf::Color light, sf::Font* _font, int _rev) {
 		//temp map too
 		hashmap.insert(std::pair<int, std::string>(10, "Trump"));
 		hashmap.insert(std::pair<int, std::string>(29, "Biden"));
@@ -100,7 +155,8 @@ public:
 		setColor(r, g, b);
 		font = _font;
 		darkCol = dark;
-		midCol = mid;
+		lightCol = light;
+		reversed = _rev;
 		initSlices();
 		sendDrawables(to);
 	}

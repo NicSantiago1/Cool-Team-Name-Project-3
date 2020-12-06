@@ -70,6 +70,21 @@ public:
 			extras.push_back(b);
 		}
 
+		//bottom totals
+		int lTot = 0, rTot = 0;
+		for (int i = 0; i < 12; i++) {
+			lTot += keywordFreq->at(2*i) - 1;
+			rTot += keywordFreq->at(2*i+1) - 1;
+		}
+		auto b = new sf::Text(intStr(lTot), *font, 16);
+		b->setFillColor(colors[0]);
+		b->setPosition(xpos + (width / size)*(24 / 2 * 2), ypos + 35 + 20 * (24 % 2));
+		extras.push_back(b);
+		b = new sf::Text(intStr(rTot), *font, 16);
+		b->setFillColor(colors[1]);
+		b->setPosition(xpos + (width / size)*(25 / 2 * 2), ypos + 35 + 20 * (25 % 2));
+		extras.push_back(b);
+
 
 		//create horz bars (5-9 in increments of 2*10^n-1 where n is the max vals length
 		int scaleSize = maxVal;
@@ -109,17 +124,26 @@ public:
 			i++;
 		} while (scaleSize * i <= maxVal * 5);
 
-		//sidebar
-
 	}
 
 	void initText() {
+		//bottom
 		for (int i = 0; i < 12; i++) {
 			auto text = new sf::Text(monthStrs[i],*font, 20);
 			text->setFillColor(darkCol);
 			text->setPosition(xpos + i*width/12.0f, ypos+10);
 			extras.push_back(text);
 		}
+		auto text = new sf::Text("Totals", *font, 20);
+		text->setFillColor(darkCol);
+		text->setPosition(xpos + 12 * width / 12.0f, ypos + 10);
+		extras.push_back(text);
+
+		//title
+		text = new sf::Text("Political Keywords in COVID-19 related Tweets by Political Orientation by Month", *font, 24);
+		text->setFillColor(darkCol);
+		text->setPosition(xpos-40, ypos - height - 60);
+		extras.push_back(text);
 	}
 
 	void sendDrawables(std::vector<sf::Drawable*>* to) {

@@ -68,9 +68,9 @@ public:
 
 
 		//pie chart things (size, xypos, rgb, draw group
-		leftChart =  new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, &pieDrawables, darkCol, midCol, &fontAHG);
+		leftChart =  new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, &pieDrawables, darkCol, lightCol, &fontAHGl, 1);
 		//midChart =   new pieChart(160.0f, WIDTH / 2.0f, HEIGHT / 2.0f - 50.0f,          nr, ng, nb, &pieDrawables, darkCol, midCol, &fontAHG);
-		rightChart = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, &pieDrawables, darkCol, midCol, &fontAHG);
+		rightChart = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, &pieDrawables, darkCol, lightCol, &fontAHGl, -1);
 
 
 		//bar chart things
