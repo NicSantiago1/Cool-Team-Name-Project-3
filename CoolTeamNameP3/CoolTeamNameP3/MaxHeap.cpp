@@ -1,4 +1,5 @@
-#include "DandA3 Map.hpp"
+#include "DandA3 Map.cpp"
+#include <queue>
 
 class Node {
 public: 
@@ -14,6 +15,9 @@ class datasetMaxHeap {
 	// Vector for month. Pair contains int for number of appearances and Node for each keyword
 	vector <vector<pair<int, Node>>> LeftHeaps;
 	vector <vector<pair<int, Node>>> RightHeaps;
+
+	vector<priority_queue<pair<int, Node>>> LeftMaxes;
+	vector<priority_queue<pair<int, Node>>> RightMaxes;
 
 public:
 	// Keyword vectors
@@ -260,7 +264,21 @@ public:
 	}
 
 	void makeHeap() {
+		for (int i = 0; i < LeftHeaps.size(); i++) {
+			priority_queue<pair<int, Node>> tempLeft;
+			for (int j = 0; j < LeftHeaps[i].size(); j++) {
+				tempLeft.push(make_pair(LeftHeaps[i].at(j).first, LeftHeaps[i].at(j).second));
+			}
+			LeftMaxes.push_back(tempLeft);
+		}
 
+		for (int i = 0; i < RightHeaps.size(); i++) {
+			priority_queue<pair<int, Node>> tempRight;
+			for (int j = 0; j < LeftHeaps[i].size(); j++) {
+				tempRight.push(make_pair(LeftHeaps[i].at(j).first, LeftHeaps[i].at(j).second));
+			}
+			RightMaxes.push_back(tempRight);
+		}
 	}
 
 	// constructor for the Max Heap
