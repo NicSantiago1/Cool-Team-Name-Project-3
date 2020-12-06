@@ -78,16 +78,15 @@ public:
 			scaleSize /= 10;
 			power++;
 		}
-		scaleSize = 2 * pow(10, power);
-		if (scaleSize >= maxVal)
-			scaleSize /= 10;
+		scaleSize = pow(10, power);
+		
 
 		int i = 0;
 		do {
 
 			if (i % 5 == 0) {
 				//text
-				std::string tmp = intStr(scaleSize*i);
+				std::string tmp = intStr(scaleSize*i/5);
 				auto text = new sf::Text(tmp, *font, 20);
 				text->setFillColor(darkCol);
 				text->setPosition(xpos - 20 - text->getLocalBounds().width, ypos - scaleSize * i / 5 / maxVal * height - 24);
