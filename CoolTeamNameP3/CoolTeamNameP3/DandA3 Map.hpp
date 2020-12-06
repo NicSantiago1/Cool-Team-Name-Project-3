@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
-#include <unordered_map>
+#include <map>
 
 using namespace std;
 
@@ -23,7 +23,7 @@ class datasetMap {
 	vector<string> leftKeywords;
 	vector<string> rightKeywords;
 	vector<int> KeywordFrequency;
-	unordered_map<pair<string, string>, vector<TweetData>> datasetContents;
+	map<pair<string, string>, vector<TweetData>> datasetContents;
 
 	std::string monthStrs[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 	int monthIndex(string mnth) {
@@ -117,7 +117,7 @@ public:
 
 	}
 	
-	unordered_map<pair<string, string>, vector<TweetData>>* returnContents() {
+	map<pair<string, string>, vector<TweetData>>* returnContents() {
 		return &datasetContents;
 	}
 

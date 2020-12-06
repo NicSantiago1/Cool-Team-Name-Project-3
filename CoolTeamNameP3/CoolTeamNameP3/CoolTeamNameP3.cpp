@@ -1,9 +1,9 @@
 #pragma once
 #include <iostream>
 
-//maps
+//ds
 #include "DandA3 Map.hpp"
-#include "MaxHeap.cpp"
+//#include "MaxHeap.cpp"
 
 //graphics
 #include <SFML/Graphics.hpp>
@@ -13,7 +13,7 @@ int main()
 {
 	datasetMap yearDataset;
 	yearDataset.AddDatasetValues();
-	unordered_map<pair<string, string>, vector<TweetData>>* mapDS = yearDataset.returnContents();
+	map<pair<string, string>, vector<TweetData>>* mapDS = yearDataset.returnContents();
 
 	vector<int> kwf = yearDataset.returnKeywordFreq();
 	GUIHandler GUI(&kwf);
