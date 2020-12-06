@@ -9,84 +9,32 @@ public:
 
 class datasetMaxHeap {
 	map<pair<string, string>, vector<TweetData>> datasetContents;
-	vector<pair<int, Node>> JanLeftHeap;
-	vector<pair<int, Node>> JanRightHeap;
 
-	vector<pair<int, Node>> FebLeftHeap;
-	vector<pair<int, Node>> FebRightHeap;
+	// Contains all the vectors of keywords and their counts. 12 total in each one for 12 months.
+	// Vector for month. Pair contains int for number of appearances and Node for each keyword
+	vector <vector<pair<int, Node>>> LeftHeaps;
+	vector <vector<pair<int, Node>>> RightHeaps;
 
-	vector<pair<int, Node>> MarLeftHeap;
-	vector<pair<int, Node>> MarRightHeap;
-
-	vector<pair<int, Node>> AprLeftHeap;
-	vector<pair<int, Node>> AprRightHeap;
-
-	vector<pair<int, Node>> MayLeftHeap;
-	vector<pair<int, Node>> MayRightHeap;
-
-	vector<pair<int, Node>> JunLeftHeap;
-	vector<pair<int, Node>> JunRightHeap;
-
-	vector<pair<int, Node>> JulLeftHeap;
-	vector<pair<int, Node>> JulRightHeap;
-
-	vector<pair<int, Node>> AugLeftHeap;
-	vector<pair<int, Node>> AugRightHeap;
-
-	vector<pair<int, Node>> SepLeftHeap;
-	vector<pair<int, Node>> SepRightHeap;
-
-	vector<pair<int, Node>> OctLeftHeap;
-	vector<pair<int, Node>> OctRightHeap;
-
-	vector<pair<int, Node>> NovLeftHeap;
-	vector<pair<int, Node>> NovRightHeap;
-
-	vector<pair<int, Node>> DecLeftHeap;
-	vector<pair<int, Node>> DecRightHeap;
 public:
+	// Keyword vectors
 	vector<string> lefts = { "democrat", "liberals", "leftist", "biden", "dnc", "vice", "kamala", "blm", "black lives matter", "bernie", "aoc", "impeach", "socialist", "socialism", "communist",
 	"communism", "medicare", "m4a", "yang", "buttigieg", "warren", "bloomberg" };
-	vector<string> rights = { "republican", "conservative", "donald", "trump", "realdonaldtrump", "pence", "bannon", "roger stone", "manafort", "mcconnell", "fascist", "fascism" };
+	vector<string> rights = { "republican", "conservative", "donald", "trump", "realdonaldtrump", "pence", "bannon", "roger stone", "manafort", "mcconnell", "fascist", "fascism", "shapiro" };
 
-	// Gives the leftHeap and rightHeap vectors the strings and initializes the counts to 0
+	//Creates a left word and right word vector for each month. 24 vectors in total. Adds each keyword in the vectors and initializes the word counts to 0
 	void fillNodes() {
-		for (int i = 0; i < lefts.size(); i++) {
-			JanLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			JanRightHeap.push_back(make_pair(0, Node(rights.at(i))));
+		for (int i = 0; i < 12; i++) {
+			vector<pair<int, Node>> leftTemp;
+			vector<pair<int, Node>> rightTemp;
+			for (int j = 0; j < lefts.size(); j++) {
+				leftTemp.push_back(make_pair(0, Node(lefts.at(j))));
+			}	
+			for (int j = 0; j < rights.size(); j++) {
+				rightTemp.push_back(make_pair(0, Node(rights.at(j))));
+			}
 
-			FebLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			FebRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			MarLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			MarRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			AprLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			AprRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			MayLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			MayRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			JunLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			JunRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			JulLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			JulRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			AugLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			AugRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			SepLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			SepRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			OctLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			OctRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			NovLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			NovRightHeap.push_back(make_pair(0, Node(rights.at(i))));
-
-			DecLeftHeap.push_back(make_pair(0, Node(lefts.at(i))));
-			DecRightHeap.push_back(make_pair(0, Node(rights.at(i))));
+			LeftHeaps.push_back(leftTemp);
+			RightHeaps.push_back(rightTemp);
 		}
 	}
 
@@ -98,214 +46,216 @@ public:
 		return out;
 	}
 
+	//Function to convert the month string identifiers to numbers 1-12
+	string monthStrs[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+	int monthIndex(string mnth) {
+		for (int i = 0; i < 12; i++) {
+			if (!mnth.compare(monthStrs[i]))
+				return i;
+		}
+		return -1;
+	}
+
 	// Fills the leftHeap and rightHeap vectors' the tweets vector and increases the counts when found
 	void fillNodes2() {
 		map<pair<string, string>, vector<TweetData>>::iterator iter;
 		for (iter = datasetContents.begin(); iter != datasetContents.end(); iter++) {
-			if (iter->first.second == "Jan") {															// Chooses tweet if the tweet's month is the target month
+			int mon = monthIndex(iter->first.second);
+			switch (mon) {
+			case 1:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(JanLeftHeap[j].second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							JanLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							JanLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[0].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[0].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[0].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(JanRightHeap[j].second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							JanRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							JanRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[0].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[0].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[0].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Feb") {														
+			case 2:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;					
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(FebLeftHeap[j].second.keyword)) != string::npos) {
-							FebLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							FebLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[1].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[1].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[1].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(FebRightHeap[j].second.keyword)) != string::npos) {
-							FebRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							FebRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[1].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[1].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[1].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Mar") {
+			case 3:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(MarLeftHeap[j].second.keyword)) != string::npos) {
-							MarLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							MarLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[2].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[2].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[2].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(MarRightHeap[j].second.keyword)) != string::npos) {
-							MarRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							MarRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[2].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[2].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[2].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Apr") {
+			case 4:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(AprLeftHeap[j].second.keyword)) != string::npos) {
-							AprLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							AprLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[3].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[3].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[3].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(AprRightHeap[j].second.keyword)) != string::npos) {
-							AprRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							AprRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[3].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[3].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[3].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "May") {
+			case 5:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(MayLeftHeap[j].second.keyword)) != string::npos) {
-							MayLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							MayLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[4].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[4].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[4].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(MayRightHeap[j].second.keyword)) != string::npos) {
-							MayRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							MayRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[4].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[4].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[4].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Jun") {
+			case 6:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(JunLeftHeap[j].second.keyword)) != string::npos) {
-							JunLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							JunLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[5].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[5].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[5].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(JunRightHeap[j].second.keyword)) != string::npos) {
-							JunRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							JunRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[5].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[5].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[5].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Jul") {														
+			case 7:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;					
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(JulLeftHeap[j].second.keyword)) != string::npos) {
-							JulLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							JulLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[6].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[6].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[6].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(JulRightHeap[j].second.keyword)) != string::npos) {
-							JulRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							JulRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[6].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[6].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[6].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Aug") {
+			case 8:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(AugLeftHeap[j].second.keyword)) != string::npos) {
-							AugLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							AugLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[7].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[7].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[7].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(AugRightHeap[j].second.keyword)) != string::npos) {
-							AugRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							AugRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[7].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[7].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[7].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Sep") {														
+			case 9:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;					
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(SepLeftHeap[j].second.keyword)) != string::npos) {
-							SepLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							SepLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[8].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[8].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[8].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(SepRightHeap[j].second.keyword)) != string::npos) {
-							SepRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							SepRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[8].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[8].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[8].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Oct") {
+			case 10:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(OctLeftHeap[j].second.keyword)) != string::npos) {
-							OctLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							OctLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[9].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[9].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[9].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(OctRightHeap[j].second.keyword)) != string::npos) {
-							OctRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							OctRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[9].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[9].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[9].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Nov") {
+			case 11:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(NovLeftHeap[j].second.keyword)) != string::npos) {
-							NovLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							NovLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[10].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[10].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[10].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(NovRightHeap[j].second.keyword)) != string::npos) {
-							NovRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							NovRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[10].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[10].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[10].at(j).first++;
 						}
 					}
 				}
-			}
-			else if (iter->first.second == "Dec") {
+			case 12:
 				for (int i = 0; i < iter->second.size(); i++) {
-					string TweetContent = iter->second.at(i).tweetContent;
+					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(DecLeftHeap[j].second.keyword)) != string::npos) {
-							DecLeftHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							DecLeftHeap[j].first++;
+						if (TweetContent.find(strLower(LeftHeaps[11].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[11].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[11].at(j).first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(DecRightHeap[j].second.keyword)) != string::npos) {
-							DecRightHeap[j].second.tweets.push_back(&(iter->second.at(i)));
-							DecRightHeap[j].first++;
+						if (TweetContent.find(strLower(RightHeaps[11].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[11].at(j).second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[11].at(j).first++;
 						}
 					}
 				}
 			}
+
 		}
 	}
 
@@ -313,7 +263,7 @@ public:
 
 	}
 
-	// constructor for the Max Heap. Given the month string so that it can be used to find which month's tweets to take data from
+	// constructor for the Max Heap
 	datasetMaxHeap(map<pair<string, string>, vector<TweetData>> _datasetContents) { datasetContents = _datasetContents; }
 };
 
