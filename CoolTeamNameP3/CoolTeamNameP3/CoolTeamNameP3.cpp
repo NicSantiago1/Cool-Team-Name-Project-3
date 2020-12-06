@@ -13,7 +13,7 @@ int main()
 {
 	datasetMap yearDataset;
 	yearDataset.AddDatasetValues();
-	map<pair<string, string>, vector<TweetData>>* mapDS = yearDataset.returnContents();
+	unordered_map<pair<string, string>, vector<TweetData>>* mapDS = yearDataset.returnContents();
 
 	vector<int> kwf = yearDataset.returnKeywordFreq();
 	GUIHandler GUI(&kwf);
