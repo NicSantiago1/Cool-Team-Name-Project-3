@@ -60,7 +60,7 @@ public:
 			a->setSize(sf::Vector2f(adjwidth / size, 0.0f - keywordFreq->at(i) / maxVal * height));
 			a->setFillColor(colors[(i) % 2]);
 			a->setPosition(xpos+(adjwidth / size)*(i + (i)/2), ypos);
-			a->value = keywordFreq->at(i);
+			a->value = keywordFreq->at(i)-1;
 			bars.push_back(a);
 
 			//bottom text
