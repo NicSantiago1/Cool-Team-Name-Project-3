@@ -290,8 +290,8 @@ public:
 
 		for (int i = 0; i < RightHeaps.size(); i++) {
 			priority_queue<intNodePair> tempRight;
-			for (int j = 0; j < LeftHeaps[i].size(); j++) {
-				tempRight.push(intNodePair(make_pair(LeftHeaps[i].at(j).contPair.first, LeftHeaps[i].at(j).contPair.second)));
+			for (int j = 0; j < RightHeaps[i].size(); j++) {
+				tempRight.push(intNodePair(make_pair(RightHeaps[i].at(j).contPair.first, RightHeaps[i].at(j).contPair.second)));
 			}
 			RightMaxes.push_back(tempRight);
 		}
@@ -315,6 +315,16 @@ public:
 
 	void returnLeftHeaps(vector<vector<intNodePair>>* in) {
 		for (auto it : LeftMaxes) {
+			vector<intNodePair> temp;
+			while (!it.empty()) {
+				temp.push_back(it.top());
+				it.pop();
+			}
+			in->push_back(temp);
+		}
+	}
+	void returnRightHeaps(vector<vector<intNodePair>>* in) {
+		for (auto it : RightMaxes) {
 			vector<intNodePair> temp;
 			while (!it.empty()) {
 				temp.push_back(it.top());

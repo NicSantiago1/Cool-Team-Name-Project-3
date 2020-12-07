@@ -11,10 +11,21 @@ class GUIHandler {
 	sf::Font fontAHG;
 	sf::Font fontAHGl;
 	
-	int state = 0; //0 for pie, 1 for bar
+	int state = 0; //0 for bar, 1 to 12 for pie
 	std::vector<sf::Drawable*> drawables;
-	std::vector<sf::Drawable*> pieDrawables;
 	std::vector<sf::Drawable*> barDrawables;
+	std::vector<sf::Drawable*> pieDrawables1;
+	std::vector<sf::Drawable*> pieDrawables2;
+	std::vector<sf::Drawable*> pieDrawables3;
+	std::vector<sf::Drawable*> pieDrawables4;
+	std::vector<sf::Drawable*> pieDrawables5;
+	std::vector<sf::Drawable*> pieDrawables6;
+	std::vector<sf::Drawable*> pieDrawables7;
+	std::vector<sf::Drawable*> pieDrawables8;
+	std::vector<sf::Drawable*> pieDrawables9;
+	std::vector<sf::Drawable*> pieDrawables10;
+	std::vector<sf::Drawable*> pieDrawables11;
+	std::vector<sf::Drawable*> pieDrawables12;
 
 	//window size
 	const int WIDTH = 1280, HEIGHT = 720;
@@ -68,19 +79,138 @@ public:
 		drawables.push_back(title);
 
 
-		//pie chart things (size, xypos, rgb, draw group
-		cout << pieDrawables.size();
-		for (int i = 0; i < leftHeaps->size(); i++) {
-			auto temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(i)));
-			pieDrawables.insert(pieDrawables.end(), temp->slices.begin(), temp->slices.end());
-			pieDrawables.insert(pieDrawables.end(), temp->extras.begin(), temp->extras.end());
+		//pie chart things (yes this is braindead but i really did try to get a vector to work
+		//1
+			auto temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(0)));
+			pieDrawables1.insert(pieDrawables1.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables1.insert(pieDrawables1.end(), temp->extras.begin(), temp->extras.end());
 			leftChart.push_back(temp);
 
-			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(i)));
-			pieDrawables.insert(pieDrawables.end(), temp->slices.begin(), temp->slices.end());
-			pieDrawables.insert(pieDrawables.end(), temp->extras.begin(), temp->extras.end());
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(0)));
+			pieDrawables1.insert(pieDrawables1.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables1.insert(pieDrawables1.end(), temp->extras.begin(), temp->extras.end());
 			rightChart.push_back(temp);
-		}
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(1)));
+			pieDrawables2.insert(pieDrawables2.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables2.insert(pieDrawables2.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(1)));
+			pieDrawables2.insert(pieDrawables2.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables2.insert(pieDrawables2.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(2)));
+			pieDrawables3.insert(pieDrawables3.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables3.insert(pieDrawables3.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(2)));
+			pieDrawables3.insert(pieDrawables3.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables3.insert(pieDrawables3.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(3)));
+			pieDrawables4.insert(pieDrawables4.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables4.insert(pieDrawables4.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(3)));
+			pieDrawables4.insert(pieDrawables4.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables4.insert(pieDrawables4.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(4)));
+			pieDrawables5.insert(pieDrawables5.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables5.insert(pieDrawables5.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(4)));
+			pieDrawables5.insert(pieDrawables5.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables5.insert(pieDrawables5.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(5)));
+			pieDrawables6.insert(pieDrawables6.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables6.insert(pieDrawables6.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(5)));
+			pieDrawables6.insert(pieDrawables6.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables6.insert(pieDrawables6.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(6)));
+			pieDrawables7.insert(pieDrawables7.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables7.insert(pieDrawables7.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(6)));
+			pieDrawables7.insert(pieDrawables7.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables7.insert(pieDrawables7.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(7)));
+			pieDrawables8.insert(pieDrawables8.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables8.insert(pieDrawables8.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(7)));
+			pieDrawables8.insert(pieDrawables8.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables8.insert(pieDrawables8.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(8)));
+			pieDrawables9.insert(pieDrawables9.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables9.insert(pieDrawables9.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(8)));
+			pieDrawables9.insert(pieDrawables9.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables9.insert(pieDrawables9.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(9)));
+			pieDrawables10.insert(pieDrawables10.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables10.insert(pieDrawables10.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(9)));
+			pieDrawables10.insert(pieDrawables10.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables10.insert(pieDrawables10.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(10)));
+			pieDrawables11.insert(pieDrawables11.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables11.insert(pieDrawables11.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(10)));
+			pieDrawables11.insert(pieDrawables11.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables11.insert(pieDrawables11.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(11)));
+			pieDrawables12.insert(pieDrawables12.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables12.insert(pieDrawables12.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
+
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(11)));
+			pieDrawables12.insert(pieDrawables12.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables12.insert(pieDrawables12.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
 
 		//bar chart things
 		bChart = new barChart(140, 580, 900, 400, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables, darkCol, midCol, &fontAHGl, &fontAHG, kfreq);
@@ -99,7 +229,18 @@ public:
 
 	~GUIHandler() {
 		drawables.clear();
-		pieDrawables.clear();
+		pieDrawables1.clear();
+		pieDrawables2.clear();
+		pieDrawables3.clear();
+		pieDrawables4.clear();
+		pieDrawables5.clear();
+		pieDrawables6.clear();
+		pieDrawables7.clear();
+		pieDrawables8.clear();
+		pieDrawables9.clear();
+		pieDrawables10.clear();
+		pieDrawables11.clear();
+		pieDrawables12.clear();
 		barDrawables.clear();
 		delete bChart, leftChart, rightChart;
 		delete mouseover, mouseoverBox;
@@ -117,43 +258,108 @@ public:
 					break;
 			
 				case sf::Event::KeyPressed: //buttons (temp)
-					if (event.key.code == sf::Keyboard::X)
-						state = 1;
-					if (event.key.code == sf::Keyboard::Z)
+					if (event.key.code == sf::Keyboard::Tilde)
 						state = 0;
+					if (event.key.code == sf::Keyboard::Num1)
+						state = 1;
+					if (event.key.code == sf::Keyboard::Num2)
+						state = 2;
+					if (event.key.code == sf::Keyboard::Num3)
+						state = 3;
+					if (event.key.code == sf::Keyboard::Num4)
+						state = 4;
+					if (event.key.code == sf::Keyboard::Num5)
+						state = 5;
+					if (event.key.code == sf::Keyboard::Num6)
+						state = 6;
+					if (event.key.code == sf::Keyboard::Num7)
+						state = 7;
+					if (event.key.code == sf::Keyboard::Num8)
+						state = 8;
+					if (event.key.code == sf::Keyboard::Num9)
+						state = 9;
+					if (event.key.code == sf::Keyboard::Num0)
+						state = 10;
+					if (event.key.code == sf::Keyboard::Subtract)
+						state = 11;
+					if (event.key.code == sf::Keyboard::Add)
+						state = 11;
 					break;
 			}
 		}
 
-		//mouseover
+
+		//mouseover draw
 		mouseover->setString("");
 		mouseoverBox->setSize(sf::Vector2f(0, 0));
 		if (state == 0) {
-			//no
-		}
-		else
 			bChart->checkMouseOvers(&window, mouseover, mouseoverBox);
-
+		}
 
 		//drawing
 		window.clear(lightCol);
 
+		switch (state) {
+		case 0:
+			for (auto it : barDrawables)
+				window.draw(*it);
+			break;
+		case 1:
+			for (auto it : pieDrawables1)
+				window.draw(*it);
+			break;
+		case 2:
+			for (auto it : pieDrawables2)
+				window.draw(*it);
+			break;
+		case 3:
+			for (auto it : pieDrawables3)
+				window.draw(*it);
+			break;
+		case 4:
+			for (auto it : pieDrawables4)
+				window.draw(*it);
+			break;
+		case 5:
+			for (auto it : pieDrawables5)
+				window.draw(*it);
+			break;
+		case 6:
+			for (auto it : pieDrawables6)
+				window.draw(*it);
+			break;
+		case 7:
+			for (auto it : pieDrawables7)
+				window.draw(*it);
+			break;
+		case 8:
+			for (auto it : pieDrawables8)
+				window.draw(*it);
+			break;
+		case 9:
+			for (auto it : pieDrawables9)
+				window.draw(*it);
+			break;
+		case 10:
+			for (auto it : pieDrawables10)
+				window.draw(*it);
+			break;
+		case 11:
+			for (auto it : pieDrawables11)
+				window.draw(*it);
+			break;
+		case 12:
+			for (auto it : pieDrawables12)
+				window.draw(*it);
+			break;
+		}
+
+		window.draw(*mouseoverBox);
+		window.draw(*mouseover);
+
 		for (auto it : drawables)
 			window.draw(*it);
 
-		if (state == 0) {
-			for (auto it : pieDrawables) {
-				window.draw(*it);
-			}
-		}
-		else {
-			for (auto it : barDrawables) {
-				window.draw(*it);
-			}
-		}
-		window.draw(*mouseoverBox);
-		window.draw(*mouseover);
-		
 		window.display();
 
 		//return whether still running (ie yes, the false return is earlier)

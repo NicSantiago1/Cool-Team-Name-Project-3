@@ -9,7 +9,7 @@ public:
 
 class pieChart {
 	float PIE_R, PIE_X, PIE_Y;
-	int MAX_COLS = 6;
+	int MAX_COLS = 10;
 	vector<string> pieKeys;
 	std::vector<sf::Color> pieColors;
 public:
@@ -72,7 +72,7 @@ public:
 			b->setFont(*font);
 			b->setCharacterSize(20);
 			(reversed > 0) ? b->setString(intStr(j->contPair.first * 100 / total) + "% " + j->contPair.second.keyword) : b->setString(j->contPair.second.keyword + " " + intStr(j->contPair.first* 100 / total) + "%");
-			percOther -= j->contPair.first / total;
+			percOther -= j->contPair.first * 100 / total;
 			b->setFillColor(pieColors[i]);
 			b->setPosition(PIE_X + (PIE_R + 20) * reversed, PIE_Y - PIE_R + i * 20);
 			(reversed > 0) ? b->setOrigin(0, 0) : b->setOrigin(b->getGlobalBounds().width, 0);
@@ -93,7 +93,7 @@ public:
 		auto b = new sf::Text;
 		b->setFont(*font);
 		b->setCharacterSize(20);
-		(reversed > 0) ? b->setString(intStr(percOther) + "% " + "Other/None") : b->setString("Other/None " + intStr(percOther) + "%");
+		(reversed > 0) ? b->setString(intStr(max(percOther,0)) + "% " + "Other/None") : b->setString("Other/None " + intStr(max(percOther,0)) + "%");
 		b->setFillColor(pieColors[MAX_COLS - 1]);
 		(reversed > 0) ? b->setOrigin(0, 0) : b->setOrigin(b->getGlobalBounds().width, 0);
 		b->setPosition(PIE_X + (PIE_R + 20) * reversed, PIE_Y - PIE_R + (MAX_COLS - 1) * 20);
@@ -102,7 +102,7 @@ public:
 
 		//pie
 		j = dataheap->begin();
-		int k = j->contPair.first;
+		int k = j->contPair.first * 100 / total;
 		int m = 0;
 		for (int i = 0; i < 100; i++) {
 			auto a = new mouseOverSlice;
@@ -115,7 +115,7 @@ public:
 			a->setPoint(2, sf::Vector2f((float)(PIE_R*std::sin((2.0f * PI / 100.0f)*(i + 1))),
 				(float)(-PIE_R * std::cos((2.0f * PI / 100.0f)*(i + 1)))));
 			//value
-			a->value = j->contPair.first;
+			a->value = j->contPair.first * 100 / total;
 			a->string = j->contPair.second.keyword;
 			//this bit uggo but it assigns colors/text
 			a->setFillColor(pieColors[m]);
@@ -124,7 +124,7 @@ public:
 			if (k == 0) {
 				if (m == MAX_COLS - 2) {
 					m++;
-					k = 100;
+					k = 9999;
 				}
 				else {
 					j++;
@@ -132,7 +132,7 @@ public:
 					m += 1;
 				}
 			}
-			if (k == j->contPair.first* 100 / total / 2) { //align onpie text
+			if (k == j->contPair.first / 2 && j->contPair.first * 100 / total > 2) { //align onpie text
 				onPieTexts[m]->setPosition(sf::Vector2f((float)(PIE_X + PIE_R * .7 * std::sin((2.0f * PI / 100.0f)*i)),
 					(float)(PIE_Y - PIE_R * .7 * std::cos((2.0f * PI / 100.0f)*i))));
 			}
