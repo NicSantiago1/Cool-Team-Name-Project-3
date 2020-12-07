@@ -28,14 +28,15 @@ class GUIHandler {
 	sf::Color midCol = sf::Color(199, 196, 189);
 	
 	//charts
-	pieChart* leftChart,* rightChart;
+	vector<pieChart*> leftChart, rightChart;
+	int piestate = 0;
 	barChart* bChart;
 	//mouseover
 	sf::Text* mouseover;
 	sf::RectangleShape* mouseoverBox;
 
 public:
-	GUIHandler(vector<int>* kfreq) {
+	GUIHandler(vector<int>* kfreq, vector<vector<intNodePair>>* leftHeaps, vector<vector<intNodePair>>* rightHeaps) {
 		//initialize window
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
@@ -68,10 +69,18 @@ public:
 
 
 		//pie chart things (size, xypos, rgb, draw group
-		leftChart =  new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, &pieDrawables, darkCol, lightCol, &fontAHGl, 1);
-		//midChart =   new pieChart(160.0f, WIDTH / 2.0f, HEIGHT / 2.0f - 50.0f,          nr, ng, nb, &pieDrawables, darkCol, midCol, &fontAHG);
-		rightChart = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, &pieDrawables, darkCol, lightCol, &fontAHGl, -1);
+		cout << pieDrawables.size();
+		for (int i = 0; i < leftHeaps->size(); i++) {
+			auto temp = new pieChart(160.0f, WIDTH / 2.0f - 400.0f, HEIGHT / 2.0f - 50.0f, lr, lg, lb, darkCol, lightCol, &fontAHGl, 1, &(leftHeaps->at(i)));
+			pieDrawables.insert(pieDrawables.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables.insert(pieDrawables.end(), temp->extras.begin(), temp->extras.end());
+			leftChart.push_back(temp);
 
+			temp = new pieChart(160.0f, WIDTH / 2.0f + 400.0f, HEIGHT / 2.0f - 50.0f, rr, rg, rb, darkCol, lightCol, &fontAHGl, -1, &(rightHeaps->at(i)));
+			pieDrawables.insert(pieDrawables.end(), temp->slices.begin(), temp->slices.end());
+			pieDrawables.insert(pieDrawables.end(), temp->extras.begin(), temp->extras.end());
+			rightChart.push_back(temp);
+		}
 
 		//bar chart things
 		bChart = new barChart(140, 580, 900, 400, sf::Color(lr, lg, lb), sf::Color(nr, ng, nb), sf::Color(rr, rg, rb), &barDrawables, darkCol, midCol, &fontAHGl, &fontAHG, kfreq);
