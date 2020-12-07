@@ -8,16 +8,32 @@ public:
 	Node(string given){	keyword = given; }
 };
 
+struct intNodePair {
+	pair<int, Node> contPair = make_pair(1,Node(""));
+	intNodePair(pair<int, Node> in) {
+		contPair = in;
+	}
+
+	intNodePair(const intNodePair&) = default;
+
+	bool operator<(const intNodePair& in) const {
+		if (this->contPair.first > in.contPair.first)
+			return true;
+		return false;
+	}
+
+};
+
 class datasetMaxHeap {
 	map<pair<string, string>, vector<TweetData>> datasetContents;
 
 	// Contains all the vectors of keywords and their counts. 12 total in each one for 12 months.
 	// Vector for month. Pair contains int for number of appearances and Node for each keyword
-	vector <vector<pair<int, Node>>> LeftHeaps;
-	vector <vector<pair<int, Node>>> RightHeaps;
+	vector <vector<intNodePair>> LeftHeaps;
+	vector <vector<intNodePair>> RightHeaps;
 
-	vector<priority_queue<pair<int, Node>>> LeftMaxes;
-	vector<priority_queue<pair<int, Node>>> RightMaxes;
+	vector<priority_queue<intNodePair>> LeftMaxes;
+	vector<priority_queue<intNodePair>> RightMaxes;
 
 public:
 	// Keyword vectors
@@ -28,8 +44,8 @@ public:
 	//Creates a left word and right word vector for each month. 24 vectors in total. Adds each keyword in the vectors and initializes the word counts to 0
 	void fillNodes() {
 		for (int i = 0; i < 12; i++) {
-			vector<pair<int, Node>> leftTemp;
-			vector<pair<int, Node>> rightTemp;
+			vector<intNodePair> leftTemp;
+			vector<intNodePair> rightTemp;
 			for (int j = 0; j < lefts.size(); j++) {
 				leftTemp.push_back(make_pair(0, Node(lefts.at(j))));
 			}	
@@ -70,15 +86,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[0].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[0].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[0].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[0].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[0].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[0].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[0].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[0].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[0].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[0].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[0].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[0].at(j).contPair.first++;
 						}
 					}
 				}
@@ -86,15 +102,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[1].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[1].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[1].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[1].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[1].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[1].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[1].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[1].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[1].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[1].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[1].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[1].at(j).contPair.first++;
 						}
 					}
 				}
@@ -102,15 +118,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[2].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[2].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[2].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[2].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[2].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[2].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[2].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[2].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[2].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[2].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[2].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[2].at(j).contPair.first++;
 						}
 					}
 				}
@@ -118,15 +134,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[3].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[3].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[3].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[3].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[3].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[3].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[3].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[3].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[3].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[3].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[3].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[3].at(j).contPair.first++;
 						}
 					}
 				}
@@ -134,15 +150,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[4].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[4].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[4].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[4].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[4].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[4].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[4].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[4].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[4].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[4].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[4].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[4].at(j).contPair.first++;
 						}
 					}
 				}
@@ -150,15 +166,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[5].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[5].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[5].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[5].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[5].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[5].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[5].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[5].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[5].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[5].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[5].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[5].at(j).contPair.first++;
 						}
 					}
 				}
@@ -166,15 +182,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[6].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[6].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[6].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[6].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[6].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[6].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[6].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[6].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[6].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[6].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[6].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[6].at(j).contPair.first++;
 						}
 					}
 				}
@@ -182,15 +198,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[7].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[7].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[7].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[7].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[7].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[7].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[7].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[7].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[7].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[7].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[7].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[7].at(j).contPair.first++;
 						}
 					}
 				}
@@ -198,15 +214,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[8].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[8].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[8].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[8].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[8].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[8].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[8].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[8].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[8].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[8].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[8].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[8].at(j).contPair.first++;
 						}
 					}
 				}
@@ -214,15 +230,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[9].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[9].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[9].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[9].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[9].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[9].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[9].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[9].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[9].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[9].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[9].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[9].at(j).contPair.first++;
 						}
 					}
 				}
@@ -230,15 +246,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[10].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[10].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[10].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[10].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[10].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[10].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[10].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[10].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[10].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[10].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[10].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[10].at(j).contPair.first++;
 						}
 					}
 				}
@@ -246,15 +262,15 @@ public:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
 					for (int j = 0; j < lefts.size(); j++) {
-						if (TweetContent.find(strLower(LeftHeaps[11].at(j).second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
-							LeftHeaps[11].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							LeftHeaps[11].at(j).first++;
+						if (TweetContent.find(strLower(LeftHeaps[11].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a leftist keyword and adds to the heap array
+							LeftHeaps[11].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							LeftHeaps[11].at(j).contPair.first++;
 						}
 					}
 					for (int j = 0; j < rights.size(); j++) {
-						if (TweetContent.find(strLower(RightHeaps[11].at(j).second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
-							RightHeaps[11].at(j).second.tweets.push_back(&(iter->second.at(i)));
-							RightHeaps[11].at(j).first++;
+						if (TweetContent.find(strLower(RightHeaps[11].at(j).contPair.second.keyword)) != string::npos) {			// Checks tweet for a rightist keyword and adds to the heap array
+							RightHeaps[11].at(j).contPair.second.tweets.push_back(&(iter->second.at(i)));
+							RightHeaps[11].at(j).contPair.first++;
 						}
 					}
 				}
@@ -265,17 +281,17 @@ public:
 
 	void makeHeap() {
 		for (int i = 0; i < LeftHeaps.size(); i++) {
-			priority_queue<pair<int, Node>> tempLeft;
+			priority_queue<intNodePair> tempLeft;
 			for (int j = 0; j < LeftHeaps[i].size(); j++) {
-				tempLeft.push(make_pair(LeftHeaps[i].at(j).first, LeftHeaps[i].at(j).second));
+				tempLeft.push(intNodePair(make_pair(LeftHeaps[i].at(j).contPair.first, LeftHeaps[i].at(j).contPair.second)));
 			}
 			LeftMaxes.push_back(tempLeft);
 		}
 
 		for (int i = 0; i < RightHeaps.size(); i++) {
-			priority_queue<pair<int, Node>> tempRight;
+			priority_queue<intNodePair> tempRight;
 			for (int j = 0; j < LeftHeaps[i].size(); j++) {
-				tempRight.push(make_pair(LeftHeaps[i].at(j).first, LeftHeaps[i].at(j).second));
+				tempRight.push(intNodePair(make_pair(LeftHeaps[i].at(j).contPair.first, LeftHeaps[i].at(j).contPair.second)));
 			}
 			RightMaxes.push_back(tempRight);
 		}
