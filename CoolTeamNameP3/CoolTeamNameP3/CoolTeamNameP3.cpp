@@ -3,7 +3,7 @@
 
 //ds
 #include "DandA3 Map.hpp"
-//#include "MaxHeap.cpp"
+#include "MaxHeap.cpp"
 
 //graphics
 #include <SFML/Graphics.hpp>
