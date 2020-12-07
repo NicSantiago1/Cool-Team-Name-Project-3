@@ -16,7 +16,6 @@ CoolTeamNameP3/CoolTeamNameP3/CoolTeamNameP3.vcxproj
 *.obj
 *.sln
 *.idb
-*.exe
 CoolTeamNameP3/CoolTeamNameP3/full_dataset_reduced3.tsv
 *.opendb
 CoolTeamNameP3/CoolTeamNameP3/full_dataset_all_reduced.tsv
