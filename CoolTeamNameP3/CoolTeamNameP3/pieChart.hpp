@@ -93,12 +93,20 @@ public:
 		auto b = new sf::Text;
 		b->setFont(*font);
 		b->setCharacterSize(20);
-		(reversed > 0) ? b->setString(intStr(max(percOther,0)) + "% " + "Other/None") : b->setString("Other/None " + intStr(max(percOther,0)) + "%");
+		(reversed > 0) ? b->setString(intStr(max(percOther,0)) + "% " + "None") : b->setString("None " + intStr(max(percOther,0)) + "%");
 		b->setFillColor(pieColors[MAX_COLS - 1]);
 		(reversed > 0) ? b->setOrigin(0, 0) : b->setOrigin(b->getGlobalBounds().width, 0);
-		b->setPosition(PIE_X + (PIE_R + 20) * reversed, PIE_Y - PIE_R + (MAX_COLS - 1) * 20);
+		b->setPosition(PIE_X + (PIE_R + 20) * reversed, PIE_Y - PIE_R + (MAX_COLS-1) * 20);
 		extras.push_back(b);
 
+		auto c = new sf::Text; //total
+		c->setFont(*font);
+		c->setCharacterSize(20);
+		c->setString(intStr(total) + " Total tweets");
+		c->setFillColor(pieColors[MAX_COLS - 1]);
+		(reversed > 0) ? c->setOrigin(0, 0) : c->setOrigin(c->getGlobalBounds().width, 0);
+		c->setPosition(PIE_X + (PIE_R + 20) * reversed, PIE_Y - PIE_R + (MAX_COLS) * 20);
+		extras.push_back(c);
 
 		//pie
 		j = dataheap->begin();

@@ -280,10 +280,10 @@ public:
 						state = 9;
 					if (event.key.code == sf::Keyboard::Num0)
 						state = 10;
-					if (event.key.code == sf::Keyboard::Subtract)
+					if (event.key.code == sf::Keyboard::O)
 						state = 11;
-					if (event.key.code == sf::Keyboard::Add)
-						state = 11;
+					if (event.key.code == sf::Keyboard::P)
+						state = 12;
 					break;
 			}
 		}

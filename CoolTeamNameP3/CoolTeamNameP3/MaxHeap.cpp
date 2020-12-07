@@ -98,6 +98,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 2:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -114,6 +115,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 3:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -130,6 +132,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 4:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -146,6 +149,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 5:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -162,6 +166,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 6:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -178,6 +183,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 7:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -194,6 +200,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 8:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -210,6 +217,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 9:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -226,6 +234,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 10:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -242,6 +251,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 11:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -258,6 +268,7 @@ public:
 						}
 					}
 				}
+				break;
 			case 12:
 				for (int i = 0; i < iter->second.size(); i++) {
 					string TweetContent = iter->second.at(i).tweetContent;								// Iterate through the tweet's and puts the content in string
@@ -274,6 +285,7 @@ public:
 						}
 					}
 				}
+				break;
 			}
 
 		}

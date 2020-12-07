@@ -72,7 +72,7 @@ public:
 
 
 		//data
-		int skip = 100;
+		int skip = 1;
 		string tempDate, tempMonth;
 		fstream s;
 		string datasetRow;
