@@ -17,7 +17,7 @@ struct intNodePair {
 	intNodePair(const intNodePair&) = default;
 
 	bool operator<(const intNodePair& in) const {
-		if (this->contPair.first > in.contPair.first)
+		if (this->contPair.first < in.contPair.first)
 			return true;
 		return false;
 	}
@@ -25,7 +25,7 @@ struct intNodePair {
 };
 
 class datasetMaxHeap {
-	map<pair<string, string>, vector<TweetData>> datasetContents;
+	map<pair<string, string>, vector<TweetData>>* datasetContents;
 
 	// Contains all the vectors of keywords and their counts. 12 total in each one for 12 months.
 	// Vector for month. Pair contains int for number of appearances and Node for each keyword
@@ -79,7 +79,7 @@ public:
 	// Fills the leftHeap and rightHeap vectors' the tweets vector and increases the counts when found
 	void fillNodes2() {
 		map<pair<string, string>, vector<TweetData>>::iterator iter;
-		for (iter = datasetContents.begin(); iter != datasetContents.end(); iter++) {
+		for (iter = datasetContents->begin(); iter != datasetContents->end(); iter++) {
 			int mon = monthIndex(iter->first.second);
 			switch (mon) {
 			case 1:
@@ -295,9 +295,41 @@ public:
 			}
 			RightMaxes.push_back(tempRight);
 		}
+
+		//for (auto it : LeftMaxes) {
+		//	while (!it.empty()) {
+		//		cout << it.top().contPair.first << ": " << it.top().contPair.second.keyword << ", ";
+		//		it.pop();
+		//	}
+		//	cout << endl;
+		//}
+		//
+		//for (auto it : RightMaxes) {
+		//	while (!it.empty()) {
+		//		cout << it.top().contPair.first << ": " << it.top().contPair.second.keyword << ", ";
+		//		it.pop();
+		//	}
+		//	cout << endl;
+		//}
+	}
+
+	void returnLeftHeaps(vector<vector<intNodePair>>* in) {
+		for (auto it : LeftMaxes) {
+			vector<intNodePair> temp;
+			while (!it.empty()) {
+				temp.push_back(it.top());
+				it.pop();
+			}
+			in->push_back(temp);
+		}
 	}
 
 	// constructor for the Max Heap
-	datasetMaxHeap(map<pair<string, string>, vector<TweetData>> _datasetContents) { datasetContents = _datasetContents; }
+	datasetMaxHeap(map<pair<string, string>, vector<TweetData>>* _datasetContents) { 
+		datasetContents = _datasetContents; 
+		fillNodes();
+		fillNodes2();
+		makeHeap();
+	}
 };
 
